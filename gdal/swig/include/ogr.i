@@ -1626,7 +1626,7 @@ public:
 #endif
 #endif
 
-#ifndef SWIGCSHARP
+
 #ifdef SWIGJAVA
 %apply (GByte* outBytes) {GByte*};
   GByte* GetFieldAsBinary(int id, int *nLen, char **pBuf) {
@@ -1679,7 +1679,7 @@ public:
 #endif
 #endif /* SWIGJAVA */
 
-#endif /* SWIGCSHARP */
+
 
   /* ---- IsFieldSet --------------------------- */
   bool IsFieldSet(int id) {
