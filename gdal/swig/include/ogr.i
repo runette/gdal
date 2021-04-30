@@ -1589,7 +1589,7 @@ public:
       }
   }
 %clear GByte*;
-#elif SWIGCSHARP
+#elif defined(SWIGCSHARP)
 %apply (void *buffer_ptr) {char **}
   OGRErr GetFieldAsBinary( int id, int *nLen, char **pBuf) {
     GByte* pabyBlob = OGR_F_GetFieldAsBinary(self, id, nLen);
