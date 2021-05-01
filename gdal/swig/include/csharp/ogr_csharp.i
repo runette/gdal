@@ -103,7 +103,7 @@ DEFINE_EXTERNAL_CLASS(GDALMajorObjectShadow, OSGeo.GDAL.MajorObject)
 
     byte[] buffer = new byte[length];
 
-    if (nPtr[0] != IntPtr.Zero) Marshal.Copy(nPtr[0], buffer, 0 length);
+    if (nPtr[0] != IntPtr.Zero) Marshal.Copy(nPtr[0], buffer, 0, length);
 
     pinnedArray.Free();
 
