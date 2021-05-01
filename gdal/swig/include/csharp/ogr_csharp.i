@@ -91,8 +91,7 @@ DEFINE_EXTERNAL_CLASS(GDALMajorObjectShadow, OSGeo.GDAL.MajorObject)
   }
 }
 
-%typemap(cscode, noblock="1") OGRFeature {
-
+%typemap(cscode, noblock="1") OGRFeatureShadow {
   public byte[] GetFieldAsBinary(int id) {
     IntPtr[] nPtr = new IntPtr();
     GCHandle pinnedArray = GCHandle.Alloc(nPtr, GCHandleType.Pinned);
