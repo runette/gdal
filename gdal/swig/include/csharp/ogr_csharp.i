@@ -89,4 +89,22 @@ DEFINE_EXTERNAL_CLASS(GDALMajorObjectShadow, OSGeo.GDAL.MajorObject)
   public Geometry(wkbGeometryType type) : this(OgrPINVOKE.new_Geometry((int)type, null, 0, IntPtr.Zero, null), true, null) {
     if (OgrPINVOKE.SWIGPendingException.Pending) throw OgrPINVOKE.SWIGPendingException.Retrieve();
   }
+
+  public byte[] GetFieldAsBinary(int id) {
+    IntPtr[] nPtr = new IntPtr();
+    GCHandle pinnedArray = GCHandle.Alloc(nPtr, GCHandleType.Pinned);
+    IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+
+    int length;
+
+    GetFieldAsBinary(id, out length, pointer);
+
+    byte[] buffer = new byte[length]
+
+    if (nPtr != IntPtr.Zero) Marshall.Copy(nPtr[0], buffer)
+
+    pinnedArray.Free();
+
+    return buffer;
+  }
 }
