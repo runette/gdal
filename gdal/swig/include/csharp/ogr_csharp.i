@@ -89,6 +89,9 @@ DEFINE_EXTERNAL_CLASS(GDALMajorObjectShadow, OSGeo.GDAL.MajorObject)
   public Geometry(wkbGeometryType type) : this(OgrPINVOKE.new_Geometry((int)type, null, 0, IntPtr.Zero, null), true, null) {
     if (OgrPINVOKE.SWIGPendingException.Pending) throw OgrPINVOKE.SWIGPendingException.Retrieve();
   }
+}
+
+%typemap(cscode, noblock="1") OGRFeature {
 
   public byte[] GetFieldAsBinary(int id) {
     IntPtr[] nPtr = new IntPtr();
@@ -99,9 +102,9 @@ DEFINE_EXTERNAL_CLASS(GDALMajorObjectShadow, OSGeo.GDAL.MajorObject)
 
     GetFieldAsBinary(id, out length, pointer);
 
-    byte[] buffer = new byte[length]
+    byte[] buffer = new byte[length];
 
-    if (nPtr != IntPtr.Zero) Marshall.Copy(nPtr[0], buffer)
+    if (nPtr != IntPtr.Zero) Marshall.Copy(nPtr[0], buffer);
 
     pinnedArray.Free();
 
