@@ -16,7 +16,7 @@ reference documentation, but the `GDAL API Tutorial`_ includes Python examples.
 Dependencies
 ------------
 
- * libgdal (3.2.2 or greater) and header files (gdal-devel)
+ * libgdal (3.3.0 or greater) and header files (gdal-devel)
  * numpy (1.0.0 or greater) and header files (numpy-devel) (not explicitly
    required, but many examples and utilities will not work without it)
 
@@ -152,7 +152,7 @@ There are five major modules that are included with the GDAL_ Python bindings.::
 Additionally, there are five compatibility modules that are included but
 provide notices to state that they are deprecated and will be going away.
 If you are using GDAL 1.7 bindings, you should update your imports to utilize
-the usage above, but the following will work until at least GDAL 2.1. ::
+the usage above, but the following will work until GDAL 3.1. ::
 
   >>> import gdal
   >>> import ogr
@@ -178,22 +178,14 @@ match up exactly with what you are seeing from Python, but they should be
 enough to get you going.  Docstrings for GDAL and OSR are planned for a future
 release.
 
-Numpy/Numeric
--------------
+Numpy
+-------
 
 One advanced feature of the GDAL Python bindings not found in the other
 language bindings (C#, Perl) is integration with the Python numerical array
 facilities. The gdal.Dataset.ReadAsArray() method can be used to read raster
 data as numerical arrays, ready to use with the Python numerical array
 capabilities.
-
-These facilities have evolved somewhat over time. In the past the package was
-known as "Numeric" and imported using "import Numeric". A new generation is
-imported using "import numpy". Currently the old generation bindings only
-support the older Numeric package, and the new generation bindings only
-support the new generation numpy package. They are mostly compatible, and
-by importing gdalnumeric (or osgeo.gdal_array) you will get whichever is
-appropriate to the current bindings type.
 
 Examples
 ~~~~~~~~
@@ -211,6 +203,6 @@ data, this approach is expected to be prohibitively memory intensive.
 .. _GDAL Windows Binaries: http://gisinternals.com/sdk/
 .. _Microsoft Knowledge Base doc: http://support.microsoft.com/kb/310519
 .. _Python Cheeseshop: http://pypi.python.org/pypi/GDAL/
-.. _val_repl.py: http://trac.osgeo.org/gdal/browser/trunk/gdal/swig/python/samples/val_repl.py
+.. _val_repl.py: http://trac.osgeo.org/gdal/browser/trunk/gdal/swig/python/gdal-utils/osgeo_utils/samples/val_repl.py
 .. _GDAL: http://www.gdal.org
 .. _SWIG: http://www.swig.org

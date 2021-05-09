@@ -4289,7 +4289,7 @@ void OGR_F_SetFieldIntegerList( OGRFeatureH hFeat, int iField,
  * This method currently on has an effect of OFTIntegerList, OFTInteger64List
  * and OFTRealList fields.
  *
- * This method is the same as the C function OGR_F_SetFieldIntege64rList().
+ * This method is the same as the C function OGR_F_SetFieldInteger64List().
  *
  * @note This method has only an effect on the in-memory feature object. If
  * this object comes from a layer and the modifications must be serialized back
@@ -5716,7 +5716,8 @@ OGRErr OGRFeature::SetFrom( const OGRFeature * poSrcFeature, int bForgiving )
     {
         if( poSrcFeature->GetFieldCount() )
             return OGRERR_FAILURE;
-        return SetFrom( poSrcFeature, nullptr, bForgiving );
+        int dummy = 0;
+        return SetFrom( poSrcFeature, &dummy, bForgiving );
     }
     return SetFrom( poSrcFeature, oMap.data(), bForgiving );
 }

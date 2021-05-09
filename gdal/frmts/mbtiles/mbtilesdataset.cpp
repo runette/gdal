@@ -502,7 +502,13 @@ char* MBTilesDataset::FindKey(int iPixel, int iLine)
 
     z_stream sStream;
     memset(&sStream, 0, sizeof(sStream));
-    inflateInit(&sStream);
+    if( inflateInit(&sStream) != Z_OK )
+    {
+        OGR_F_Destroy(hFeat);
+        OGR_DS_ReleaseResultSet(hDS, hSQLLyr);
+        CPLFree(pabyUncompressed);
+        return nullptr;
+    }
     sStream.next_in   = pabyData;
     sStream.avail_in  = nDataSize;
     sStream.next_out  = pabyUncompressed;
@@ -3055,6 +3061,7 @@ static const WarpResamplingAlg asResamplingAlg[] =
     { "LANCZOS", GRA_Lanczos },
     { "MODE", GRA_Mode },
     { "AVERAGE", GRA_Average },
+    { "RMS", GRA_RMS },
 };
 
 GDALDataset* MBTilesDataset::CreateCopy( const char *pszFilename,

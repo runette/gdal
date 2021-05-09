@@ -304,7 +304,7 @@ GDALDataset *OGRFlatGeobufDataset::Create( const char *pszName,
 OGRLayer *OGRFlatGeobufDataset::GetLayer( int iLayer ) {
     if( iLayer < 0 || iLayer >= GetLayerCount() )
         return nullptr;
-    return m_apoLayers[iLayer].get();
+    return m_apoLayers[iLayer]->GetLayer();
 }
 
 int OGRFlatGeobufDataset::TestCapability(const char *pszCap)
@@ -389,7 +389,7 @@ OGRLayer* OGRFlatGeobufDataset::ICreateLayer( const char *pszLayerName,
 
     m_apoLayers.push_back(std::move(poLayer));
 
-    return m_apoLayers.back().get();
+    return m_apoLayers.back()->GetLayer();
 }
 
 /************************************************************************/

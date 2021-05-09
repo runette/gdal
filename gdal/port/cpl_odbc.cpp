@@ -363,7 +363,7 @@ int CPLODBCSession::RollbackTransaction()
  * ODBC error messages are reported in the following format:
  * [SQLState]ErrorMessage(NativeErrorCode)
  *
- * Multiple error messages are delimeted by ",".
+ * Multiple error messages are delimited by ",".
  */
 int CPLODBCSession::Failed( int nRetCode, HSTMT hStmt )
 
@@ -397,7 +397,7 @@ int CPLODBCSession::Failed( int nRetCode, HSTMT hStmt )
                     achSQLState, &nNativeError,
                     reinterpret_cast<SQLCHAR *>(pachCurErrMsg),
                     nTextLength, &nTextLength2);
-            }               
+            }
             pachCurErrMsg[nTextLength] = '\0';
             m_osLastError += CPLString().Printf("%s[%5s]%s(" CPL_FRMT_GIB ")",
                     (m_osLastError.empty() ? "" : ", "), achSQLState,
@@ -1134,16 +1134,6 @@ int CPLODBCStatement::Fetch( int nOrientation, int nOffset )
             memcpy( m_papszColValues[iCol], szWrkData, cbDataLen );
             m_papszColValues[iCol][cbDataLen] = '\0';
             m_papszColValues[iCol][cbDataLen+1] = '\0';
-        }
-
-        // Trim white space off end, if there is any.
-        if( nFetchType == SQL_C_CHAR && m_papszColValues[iCol] != nullptr )
-        {
-            char *pszTarget = m_papszColValues[iCol];
-            size_t iEnd = strlen(pszTarget);
-
-            while( iEnd > 0 && pszTarget[iEnd - 1] == ' ' )
-                pszTarget[--iEnd] = '\0';
         }
 
         // Convert WCHAR to UTF-8, assuming the WCHAR is UCS-2.
@@ -1986,7 +1976,7 @@ SQLSMALLINT CPLODBCStatement::GetTypeMapping( SQLSMALLINT nTypeCode )
         case SQL_INTERVAL_HOUR_TO_SECOND:
         case SQL_INTERVAL_MINUTE_TO_SECOND:
         case SQL_GUID:
-            return SQL_C_CHAR;
+            return SQL_C_GUID;
 
         case SQL_DATE:
         case SQL_TYPE_DATE:

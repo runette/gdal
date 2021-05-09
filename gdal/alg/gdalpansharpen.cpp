@@ -404,6 +404,7 @@ GDALPansharpenOperation::Initialize( const GDALPansharpenOptions* psOptionsIn )
             (eResampleAlg == GRIORA_CubicSpline) ? "CUBICSPLINE" :
             (eResampleAlg == GRIORA_Lanczos) ? "LANCZOS" :
             (eResampleAlg == GRIORA_Average) ? "AVERAGE" :
+            (eResampleAlg == GRIORA_RMS) ? "RMS" :
             (eResampleAlg == GRIORA_Mode) ? "MODE" :
             (eResampleAlg == GRIORA_Gauss) ? "GAUSS" : "UNKNOWN";
 
@@ -1267,12 +1268,9 @@ CPLErr GDALPansharpenOperation::ProcessRegion( int nXOff, int nYOff,
 
             // To avoid races in threads, we query now the mask flags,
             // so that implicit mask bands are created now.
-            if( eResampleAlg != GRIORA_NearestNeighbour )
+            for( int i = 0; i < poMEMDS->GetRasterCount(); i++ )
             {
-                for( int i = 0; i < poMEMDS->GetRasterCount(); i++ )
-                {
-                    poMEMDS->GetRasterBand(i+1)->GetMaskFlags();
-                }
+                poMEMDS->GetRasterBand(i+1)->GetMaskFlags();
             }
 
             std::vector<GDALPansharpenResampleJob> asJobs;
