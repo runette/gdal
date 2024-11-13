@@ -463,8 +463,6 @@ function (gdal_build_csharp_sample)
           "BUILDING : " ${_GBCS_OUTPUT} " : " ${CSHARP_COMPILER} ${CSC_OPTIONS} )
     endif ()
     add_custom_command(
-        
-    add_custom_command(
       OUTPUT ${OUTPUT_FILENAME}
       COMMAND ${CMAKE_COMMAND} -E echo "Building ${_GBCS_OUTPUT_NATIVE}"
       COMMAND ${CSHARP_COMPILER} ${CSC_OPTIONS}
