@@ -105,6 +105,7 @@ endif ()
 if (DOTNET_FOUND)
   file(TO_NATIVE_PATH ${CMAKE_CURRENT_BINARY_DIR} _DN_REPO_PATH)
   dotnet_register_local_repository("local" ${_DN_REPO_PATH})
+  dotnet_disable_nuget_org()
 endif ()
 
 # Copy build files
@@ -459,6 +460,8 @@ function (gdal_build_csharp_sample)
         STATUS
           "BUILDING : " ${_GBCS_OUTPUT} " : " ${CSHARP_COMPILER} ${CSC_OPTIONS} )
     endif ()
+    add_custom_command(
+        
     add_custom_command(
       OUTPUT ${OUTPUT_FILENAME}
       COMMAND ${CMAKE_COMMAND} -E echo "Building ${_GBCS_OUTPUT_NATIVE}"
