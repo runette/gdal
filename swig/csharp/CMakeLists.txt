@@ -439,6 +439,8 @@ function (gdal_build_csharp_sample)
     else()
       configure_file("${CMAKE_CURRENT_SOURCE_DIR}/exe_template.csproj" "${_GBCS_PROJ}.csproj")
     endif ()
+    add_custom_command(
+      command $DOTNET_EXE nuget enable nuget.org)
     add_dotnet(
       ${_GBCS_PROJ_NATIVE}.csproj
       ${CSHARP_CONFIG}
