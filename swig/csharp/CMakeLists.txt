@@ -870,5 +870,7 @@ else()
     add_custom_command(
       OUTPUT ignore.txt
       COMMAND $(DOTNET_EXE) nuget enable nuget.org
+      DEPENDS csharp_binding
+      COMMENT "Enable nuget.org"
     )
 endif()
