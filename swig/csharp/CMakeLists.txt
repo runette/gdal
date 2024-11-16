@@ -105,7 +105,7 @@ endif ()
 if (DOTNET_FOUND)
   file(TO_NATIVE_PATH ${CMAKE_CURRENT_BINARY_DIR} _DN_REPO_PATH)
   dotnet_register_local_repository("local" ${_DN_REPO_PATH})
-  if (! BUILD_TESTING)
+  if (NOT BUILD_TESTING)
     dotnet_disable_nuget_org()
   endif ()
 endif ()
@@ -866,4 +866,9 @@ if (BUILD_TESTING)
       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       COMMAND ${CSHARP_INTERPRETER} GetCRSInfo/GetCRSInfo${_ex} "EPSG" 20)
     set_property(TEST csharp_getcrsinfo PROPERTY ENVIRONMENT "${TEST_ENV}")
+else()
+    add_custom_command(
+      OUTPUT ignore.txt
+      COMMAND $(DOTNET_EXE) nuget enable nuget.org
+    )
 endif()
