@@ -105,7 +105,9 @@ endif ()
 if (DOTNET_FOUND)
   file(TO_NATIVE_PATH ${CMAKE_CURRENT_BINARY_DIR} _DN_REPO_PATH)
   dotnet_register_local_repository("local" ${_DN_REPO_PATH})
-  dotnet_disable_nuget_org()
+  if (! BUILD_TESTING)
+    dotnet_disable_nuget_org()
+  endif ()
 endif ()
 
 # Copy build files
@@ -439,8 +441,6 @@ function (gdal_build_csharp_sample)
     else()
       configure_file("${CMAKE_CURRENT_SOURCE_DIR}/exe_template.csproj" "${_GBCS_PROJ}.csproj")
     endif ()
-    add_custom_command(
-      command $DOTNET_EXE nuget enable nuget.org)
     add_dotnet(
       ${_GBCS_PROJ_NATIVE}.csproj
       ${CSHARP_CONFIG}
