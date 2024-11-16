@@ -867,9 +867,9 @@ if (BUILD_TESTING)
       COMMAND ${CSHARP_INTERPRETER} GetCRSInfo/GetCRSInfo${_ex} "EPSG" 20)
     set_property(TEST csharp_getcrsinfo PROPERTY ENVIRONMENT "${TEST_ENV}")
 else()
+    Message(STATUS Enable nuget.org Commmand added)
     add_custom_command(
       OUTPUT ignore.txt
-      COMMAND ${CMAKE_COMMAND} -E echo "Enable nuget.org"
       COMMAND $(DOTNET_EXE) nuget enable nuget.org
       DEPENDS csharp_binding
     )
