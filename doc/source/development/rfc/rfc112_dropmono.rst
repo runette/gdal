@@ -23,7 +23,7 @@ Motivation
 ----------
 
 1. Removing Mono support from the CMAKE scripts will make them considerably simpler and easier to maintain.
-2. Only support dotnet will reduce the number of tests in the CI configuration, and thus reduce the time it takes to run the CI tests.
+2. Only supporting dotnet will reduce the number of tests in the CI configuration, and thus reduce the time it takes to run the CI tests.
 3. Supporting Mono limits the C# language version that can be used in the sample C# applications to version 6+. This is not a production issue but, increasingly, anyone updating those sample apps has to "reset" their mindset back a decade or more - increasing errors and CI failures. We should update the language version and explicitly declare it.
 
 Implementation
