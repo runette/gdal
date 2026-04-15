@@ -30,6 +30,8 @@ Implementation
 --------------
 The Mono support in the CMAKE build system will be removed.
 
+The documentation will be updated.
+
 An agreed C# language version will be set for the sample C# projects, currently it is proposed that should be C# 10 to be inline with .NET SDK 6.0 LTS which is very widely used and available.
 
 The CI tests will be updated to remove all Mono builds and confirm dotnet based tests are working and correct.
