@@ -113,8 +113,9 @@ namespace testapp
                 File.Delete(fileName);
             using (OSGeo.OGR.Driver shpDriver = Ogr.GetDriverByName("OpenFileGDB"))
             {
-                using (DataSource shpSrc = shpDriver.CreateDataSource(fileName, null))
-                    shpSrc.CreateLayer("图层", null, wkbGeometryType.wkbPoint, null).Dispose();
+                if (shpDriver != null)
+                    using (DataSource shpSrc = shpDriver.CreateDataSource(fileName, null))
+                        shpSrc.CreateLayer("图层", null, wkbGeometryType.wkbPoint, null).Dispose();
             }
             using (DataSource shpSrc = Ogr.Open(fileName, 0))
             {
