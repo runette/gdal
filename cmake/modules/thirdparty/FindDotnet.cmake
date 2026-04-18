@@ -134,13 +134,29 @@ EXECUTE_PROCESS(
     COMMAND "${DOTNET_EXE}" --version
     OUTPUT_VARIABLE DOTNET_VERSION
     OUTPUT_STRIP_TRAILING_WHITESPACE
+    RESULT_VARIABLE DOTNET_RESULT
+    ERROR_VARIABLE DOTNET_ERROR
 )
+
+if(NOT DOTNET_RESULT EQUAL 0)
+    message(STATUS "dotnet found but unusable (version query failed)")
+    set(DOTNET_FOUND FALSE)
+    return()
+endif()
 
 EXECUTE_PROCESS(
     COMMAND "${DOTNET_EXE}" --list-sdks
     OUTPUT_VARIABLE DOTNET_SDK_STRING
+    ERROR_VARIABLE DOTNET_SDK_ERROR
+    RESULT_VARIABLE DOTNET_SDK_RESULT
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
+
+if(NOT DOTNET_SDK_RESULT EQUAL 0)
+    message(STATUS "dotnet found but unusable (SDK query failed)")
+    set(DOTNET_FOUND FALSE)
+    return()
+endif()
 
 string(REGEX REPLACE "[\r\n]+" ";" DOTNET_SDK_STRING "${DOTNET_SDK_STRING}" )
 
@@ -150,6 +166,12 @@ foreach(ITR ${DOTNET_SDK_STRING} )
     list(APPEND DOTNET_SDKS ${SDK} )
 endforeach()
 list(REMOVE_DUPLICATES DOTNET_SDKS )
+
+if(NOT DOTNET_SDKS)
+    message(STATUS "dotnet found but unusable (no SDKs found)")
+    set(DOTNET_FOUND FALSE)
+    return()
+endif()
 
 EXECUTE_PROCESS(
     COMMAND "${DOTNET_EXE}" --list-runtimes
