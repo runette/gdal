@@ -14,6 +14,7 @@
 #   DOTNET_EXE            - Dotnet executable
 #   DOTNET_VERSION        - Dotnet version as reported by dotnet executable
 #   DOTNET_SDKS           - Dotnet SDKs loaded as reported by dotnet executable
+#   DOTNET_RUNTIMES       - Dotnet runtimes loaded as reported by dotnet executable
 #   NUGET_EXE             - Nuget executable (WIN32 only)
 #   NUGET_CACHE_PATH      - Nuget package cache path
 #
@@ -149,6 +150,23 @@ foreach(ITR ${DOTNET_SDK_STRING} )
     list(APPEND DOTNET_SDKS ${SDK} )
 endforeach()
 list(REMOVE_DUPLICATES DOTNET_SDKS )
+
+EXECUTE_PROCESS(
+    COMMAND "${DOTNET_EXE}" --list-runtimes
+    OUTPUT_VARIABLE DOTNET_RUNTIMES_STRING
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+string(REGEX REPLACE "[\r\n]+" ";" DOTNET_RUNTIMES_STRING "${DOTNET_RUNTIMES_STRING}" )
+
+set(DOTNET_RUNTIMES)
+foreach(ITR ${DOTNET_RUNTIMES_STRING} )
+    if(ITR MATCHES "NETCore")
+        string(REGEX MATCH "[0-9]+\.[0-9]+" RUNTIME "${ITR}" )
+        list(APPEND DOTNET_RUNTIMES ${RUNTIME} )
+    endif()
+endforeach()
+list(REMOVE_DUPLICATES DOTNET_RUNTIMES )
 
 IF(WIN32)
    FIND_PROGRAM(NUGET_EXE nuget PATHS ${CMAKE_BINARY_DIR}/tools)

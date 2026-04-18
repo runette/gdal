@@ -34,25 +34,14 @@ if( NOT ${CSHARP_PLATFORM} MATCHES "x86|x64|anycpu|itanium" )
   message( FATAL_ERROR "The C# target platform '${CSHARP_PLATFORM}' is not valid. Please enter one of the following: x86, x64, anycpu, or itanium" )
 endif( )
 
-if( CSHARP_MONO )
-  find_package( Mono )
-else()
-  find_package( Dotnet )
-  if( NOT DOTNET_FOUND )
-    find_package( Mono )
-  endif()
-endif()
+
+find_package( Dotnet )
 
 if( DOTNET_FOUND )
   set( CSHARP_TYPE ".NET" CACHE STRING "Using the .NET compiler" )
   set( CSHARP_VERSION ${DOTNET_VERSION} CACHE STRING "C# .NET compiler version" FORCE )
   set( CSHARP_COMPILER ${DOTNET_EXE} CACHE STRING "Full path to .NET compiler" FORCE )
   set( CSHARP_INTERPRETER "" CACHE INTERNAL "Interpreter not required for .NET" FORCE )
-elseif( CSHARP_MONO_FOUND )
-  set( CSHARP_TYPE "Mono" CACHE STRING "Using the Mono compiler" )
-  set( CSHARP_VERSION ${CSHARP_MONO_VERSION} CACHE STRING "C# Mono compiler version" FORCE )
-  set( CSHARP_COMPILER ${CSHARP_MONO_COMPILER_${CSHARP_MONO_VERSION}} CACHE STRING "Full path to Mono compiler" FORCE )
-  set( CSHARP_INTERPRETER ${CSHARP_MONO_INTERPRETER_${CSHARP_MONO_VERSION}} CACHE STRING "Full path to Mono interpreter" FORCE )
 endif( )
 
 # Handle WIN32 specific issues
