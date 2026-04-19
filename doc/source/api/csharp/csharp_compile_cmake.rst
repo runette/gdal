@@ -1,7 +1,7 @@
 .. _csharp_compile_cmake:
 
 ================================================================================
-Compiling the C# bindings - CMake Scripts
+Compiling the C# bindings
 ================================================================================
 
 This page describes the primary steps when creating the GDAL/OGR C# binaries from the source using the new CMake scripts.
@@ -13,41 +13,51 @@ You can either build the bindings as part of a full GDAL build - or standalone o
 Requirements
 ++++++++++++
 
-The build environment has the following dependencies:
+See :ref:`build_requirements`
 
-* CMake 3.10 or later
-* the appropriate C++ build environment (i.e. gcc or Visual Studio etc).
-* SWIG 4
-* .NET 5.0 or Mono
+In addition, you will require a valid installation of `dotnet` with at least one SDK installed that can build the requested target frameworks.
 
-.NET Build Toolchain
-++++++++++++++++++++
+C# Version
+++++++++++
 
-The build scripts can use either .NET 5.0 and  :file:`dotnet.exe` or Mono and :file:`msc.exe` to compile the bindings.
+The C# bindings themselves are written in SWIG and designed to be compatible with `netstandard2.0`.
 
-.NET is used for preference if it found on all platforms but the use of Mono can be forced using a command line variable.
+However, the sample applications are written in C# version 10. Incompatible syntax will break the build.
 
 Building as part of a GDAL Build
 ++++++++++++++++++++++++++++++++
 
 The build environment uses the following variables:
 
-+---------------------------+------------+-----------------------------------------------+
-| CSHARP_MONO               | Boolean    | Forces the use of Mono                        |
-+---------------------------+------------+-----------------------------------------------+
-| CSHARP_LIBRARY_VERSION    | String     | Set the .NET version for the shared libraries |
-+---------------------------+------------+-----------------------------------------------+
-| CSHARP_APPLICATION_VERSION| String     | Set the .NET version for the sample apps      |
-+---------------------------+------------+-----------------------------------------------+
-| GDAL_CSHARP_ONLY          | Boolean    | Build standalone on GDAL binaries             |
-+---------------------------+------------+-----------------------------------------------+
-| BUILD_CSHARP_BINDINGS     | Boolean    | Build the C# bindings DEFAULT ON              |
-+---------------------------+------------+-----------------------------------------------+
+.. option:: BUILD_CSHARP_BINDINGS:BOOL=ON/OFF
+
+    Whether C# bindings should be built. It is ON by default, but only
+    effective a valid .NET SDK is found.
+
+.. option:: CSHARP_LIBRARY_VERSION
+
+    Sets the .NET target Framework (in TFM format) to be used when compiling the C# binding libraries. `List of acceptable contents for .NET <https://docs.microsoft.com/en-us/dotnet/standard/frameworks#supported-target-frameworks>`_.
+    Defaults to `netstandard2.0`.
+
+.. option:: CSHARP_APPLICATION_VERSION
+
+    Sets the .NET target Framework (in TFM format) to be used when compiling the C# sample applications. `List of acceptable contents for .NET <https://docs.microsoft.com/en-us/dotnet/standard/frameworks#supported-target-frameworks>`_. 
+    Defaults to the highest version installed on the build system, i.e. `latest`.
+
+.. option:: GDAL_CSHARP_ONLY=OFF/ON
+
+    Build the C# bindings without building GDAL. This should be used when building the bindings on top of an existing GDAL installation - for instance on top of the CONDA package.
+
+.. note::
+
+    The C# bindings are made of several modules (OSGeo.GDAL, OSGeo.OGR, etc.)
+    which link each against libgdal. Consequently, a static build of libgdal is
+    not compatible with the bindings.
 
 Building with .NET
 ------------------
 
-If the build environment has .NET 5.0 installed and GDAL is built, then the c# bindings will be built using .NET by default.
+If the build environment has `dotnet` installed and GDAL is built, then the c# bindings will be built using .NET by default.
 
 The details of building GDAL are documented elsewhere, but there are likely to be variants of the following commands run from the root directory of the gdal repository:
 
@@ -98,49 +108,10 @@ Once this is done, you add the GDAL packages into your project as normal.
           This is all intentional and not a bug.
 
 
-Building on Mono
-----------------
-
-If the build environment does not have .NET 5.0 or msbuild installed and GDAL is built, then the c# bindings will be built using Mono by default. Mono building can also be forced
-by setting CSHARP_MONO.
-
-The details of building GDAL are documented elsewhere, but the there are likely to be variants of the following commands run from the root directory of the gdal repository:
-
-.. code-block::
-
-    cmake -DCMAKE_INSTALL_PREFIX ../install -DCSHARP_MONO=ON -B ../build -S .
-    cmake --build ../build --config Release
-    cmake --build ../build --config Release --target install
-
-The C# bindings and sample apps are installed in the install directory (in the above case that would be `../install`, in the `share/csharp` sub folder. There would be the following files:
-
-* :file:`gdal_csharp.dll`
-* :file:`ogr_csharp.dll`
-* :file:`osr_csharp.dll`
-* :file:`gdalconst_csharp.dll`
-* :file:`gdal_wrap.dll` or :file:`libgdal_wrap.so` or :file:`libgdal_wrap.dylib`
-* :file:`ogr_wrap.dll` or :file:`libogr_wrap.so` or :file:`libogr_wrap.dylib`
-* :file:`osr_wrap.dll` or :file:`libosr_wrap.so` or :file:`libosr_wrap.dylib`
-* :file:`osr_wrap.dll` or :file:`libosr_wrap.so` or :file:`libosr_wrap.dylib`
-* :file:`gdalconst_wrap.dll` or :file:`libgdalconst_wrap.so` or :file:`libgdalconst_wrap.dylib`
-* various sample applications as \*.exe on all platforms.
-
-Using the Mono Bindings
------------------------
-
-Note that the bindings created by this process will only work with Mono.
-
-To run one of the prebuilt executables - you can run them with Mono as follows :
-
-:program:`mono GDALInfo.exe`
-
-Both the managed libraries (i.e. the DLLs) and the unmanaged libraries must be available to Mono.
-This is in more detail in `the Mono documentation <https://www.mono-project.com/docs/advanced/pinvoke/>`__
-
 Building Standalone
 +++++++++++++++++++
 
-The Bindings using both the .NET or Mono toolchains can be build on top of an existing implementation of GDAL
+The Bindings can be build on top of an existing implementation of GDAL
 that includes the include files and libs - for instance the Conda distribution.
 
 To do this, Cmake must be run with the GDAL_CSHARP_ONLY flag set and only one of the following targets should be built:

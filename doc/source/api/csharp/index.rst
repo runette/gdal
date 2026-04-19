@@ -20,10 +20,10 @@ interface to control the finalization of the underlying unmanaged memory referen
 Supported platforms
 -------------------
 
-Currently the interface is compilable on and supports:
+Currently the interface supports:
 
-* the various Win32 and Win64 platforms targeting the Microsoft.NET and the MONO frameworks,
-* GNU Linux/OSX systems using the MONO framework, and
+* the various Win32 and Win64 platforms using .NET and the MONO frameworks,
+* GNU Linux/OSX systems using the .NET and the MONO framework, and
 * Unity systems on Windows, OSX and Linux (currently only the MONO framework and not IL2CPP).
 
 Getting GDAL for C#
@@ -44,7 +44,6 @@ Related Documents
    .. toctree::
        :maxdepth: 1
 
-       csharp_compile_legacy
        csharp_compile_cmake
        csharp_raster
        csharp_vector
