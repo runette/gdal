@@ -16,7 +16,7 @@ cmake ${GDAL_SOURCE_DIR:=..} \
     "-DUSE_PRECOMPILED_HEADERS=ON" \
     -DOracle_ROOT=/opt/instantclient_19_9 \
     -DGDAL_USE_GEOTIFF_INTERNAL:BOOL=ON \
-    -DGDAL_USE_TIFF_INTERNAL:BOOL=ON \
+    -DGDAL_USE_TIFF_INTERNAL:BOOL=ON
 
 make -j$(nproc)
 make -j$(nproc) install DESTDIR=/tmp/install-gdal
