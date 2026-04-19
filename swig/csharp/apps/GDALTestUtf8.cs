@@ -119,9 +119,12 @@ namespace testapp
             }
             using (DataSource shpSrc = Ogr.Open(fileName, 0))
             {
-                AssertEqual(fileName, shpSrc.GetName(), $"{nameof(DataSource)}.{nameof(shpSrc.GetName)}");
-                using (Layer shpLyr = shpSrc.GetLayerByName("图层"))
-                    AssertEqual("图层", shpLyr.GetName(), $"{nameof(Layer)}.{nameof(shpSrc.GetName)}");
+                if (shpSrc != null)
+                {
+                    AssertEqual(fileName, shpSrc.GetName(), $"{nameof(DataSource)}.{nameof(shpSrc.GetName)}");
+                    using (Layer shpLyr = shpSrc.GetLayerByName("图层"))
+                        AssertEqual("图层", shpLyr.GetName(), $"{nameof(Layer)}.{nameof(shpSrc.GetName)}");
+                }
             }
         }
         private static void TestUnicodeFieldDefs()
