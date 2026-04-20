@@ -55,7 +55,7 @@ The build environment uses the following variables:
     not compatible with the bindings.
 
 Building the Bindings
-------------------
+---------------------
 
 If the build environment has `dotnet` installed, and the `BUILD_CSHARP_BINDINGS` switch is `ON` (the default), then the C# bindings will be built when GDAL is built.
 
