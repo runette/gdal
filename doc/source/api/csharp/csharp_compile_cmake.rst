@@ -48,6 +48,22 @@ The build environment uses the following variables:
 
     Build the C# bindings without building GDAL. This should be used when building the bindings on top of an existing GDAL installation - for instance on top of the CONDA package.
 
+.. option:: CSHARP_BUILD_SAMPLES=OFF/ON
+
+    Whether to build the C# sample applications. Defaults to the value of `BUILD_TESTING` (i.e. ON when tests are enabled, OFF otherwise).
+
+.. option:: CSHARP_RUN_TESTS=OFF/ON
+
+    Whether to run the C# tests. Defaults to the value of `CSHARP_BUILD_SAMPLES` (i.e. ON when tests are enabled, OFF otherwise).
+
+.. option:: CSHARP_INSTALL_NUGET_PACKAGE=OFF/ON
+
+    Whether to install the generated NuGet packages for the C# bindings. Defaults to ON.
+
+.. note::
+
+    It is possible using these switches to force the sample apps NOT to be built but to force the tests to be created based on those apps. Those tests are guaranteed to fail.
+
 .. note::
 
     The C# bindings are made of several modules (OSGeo.GDAL, OSGeo.OGR, etc.)
