@@ -70,10 +70,10 @@ The build environment uses the following variables:
     which link each against libgdal. Consequently, a static build of libgdal is
     not compatible with the bindings.
 
-Building with .NET
-------------------
+Building the Bindings
+---------------------
 
-If the build environment has `dotnet` installed and GDAL is built, then the c# bindings will be built using .NET by default.
+If the build environment has `dotnet` installed, and the `BUILD_CSHARP_BINDINGS` switch is `ON` (the default), then the C# bindings will be built when GDAL is built.
 
 The details of building GDAL are documented elsewhere, but there are likely to be variants of the following commands run from the root directory of the gdal repository:
 
@@ -83,7 +83,7 @@ The details of building GDAL are documented elsewhere, but there are likely to b
     cmake --build ../build --config Release
     cmake --build ../build --config Release --target install
 
-The C# bindings and sample apps are installed in the install directory (in the above case that would be `../install`, in the `share/csharp` sub folder. There would be the following files:
+The C# bindings and sample apps are installed in the install directory. In the above case that would be `../install`, in the `share/csharp` sub folder. There would be the following files:
 
 * :file:`gdal_csharp.dll`
 * :file:`ogr_csharp.dll`
@@ -106,10 +106,10 @@ There are also the following NuGET packages:
 * :file:`OSGeo.GDAL.CONST`
 * various sample application
 
-Using the .NET Bindings
+Using the C# Bindings
 -----------------------
 
-The easiest way to use the bindings in development would be use the NuGET packages created.
+The easiest way to use the bindings in development is to use the NuGET packages created.
 
 To do this you need to add a local repository pointing to the GDAL install directory. `This is explained here <https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds>`__ .
 
@@ -127,7 +127,7 @@ Once this is done, you add the GDAL packages into your project as normal.
 Building Standalone
 +++++++++++++++++++
 
-The Bindings can be build on top of an existing implementation of GDAL
+The Bindings can be built on top of an existing installation of GDAL
 that includes the include files and libs - for instance the Conda distribution.
 
 To do this, Cmake must be run with the GDAL_CSHARP_ONLY flag set and only one of the following targets should be built:
