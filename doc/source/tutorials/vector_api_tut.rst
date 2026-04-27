@@ -50,6 +50,18 @@ all format drivers built into GDAL/OGR.
       # when importing gdal in Python
       # GDALAllRegister() is automatically called
 
+   .. code-tab:: c#
+
+      using OSGeo.GDAL;
+
+      class Program
+      {
+          static void Main(string[] args)
+          {
+              Gdal.AllRegister();
+          }
+      }
+
 Next we need to open the input OGR datasource.  Datasources can be files,
 RDBMSes, directories full of files, or even remote web services depending on
 the driver being used.  However, the datasource name is always a single
