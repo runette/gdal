@@ -15,7 +15,7 @@
 
 
 using System;
-
+using System.Text;
 using OSGeo.OGR;
 using OSGeo.OSR;
 
@@ -249,6 +249,21 @@ class CreateData
 
                 if (feat.IsFieldSet(iField))
                     Console.WriteLine(feat.GetFieldAsString(iField));
+                if (fdef.GetFieldType() == FieldType.OFTString)
+                {
+                    string binaryValue = Encoding.ASCII.GetString(feat.GetFieldAsBinary(iField));
+                    Console.WriteLine("  Binary value: " + binaryValue);
+                    if (binaryValue != feat.GetFieldAsString(iField))
+                    {
+                        Environment.Exit(-1);
+                    }
+                    binaryValue = Encoding.ASCII.GetString(feat.GetFieldAsBinary(fdef.GetName()));
+                    Console.WriteLine("  Binary value by Name: " + binaryValue);
+                    if (binaryValue != feat.GetFieldAsString(iField))
+                    {
+                        Environment.Exit(-1);
+                    }
+                }
                 else
                     Console.WriteLine("(null)");
             }

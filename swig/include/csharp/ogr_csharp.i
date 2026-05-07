@@ -7,6 +7,7 @@
  *
  ******************************************************************************
  * Copyright (c) 2007, Tamas Szekeres
+ * Copyright (c) 2026, Paul Harwood
  *
  * SPDX-License-Identifier: MIT
  *****************************************************************************/
@@ -73,5 +74,29 @@ DEFINE_EXTERNAL_CLASS(GDALMajorObjectShadow, OSGeo.GDAL.MajorObject)
 
   public Geometry(wkbGeometryType type) : this(OgrPINVOKE.new_Geometry((int)type, IntPtr.Zero, 0, IntPtr.Zero, IntPtr.Zero), true, null) {
     if (OgrPINVOKE.SWIGPendingException.Pending) throw OgrPINVOKE.SWIGPendingException.Retrieve();
+  }
+}
+
+%typemap(cscode, noblock="1") OGRFeatureShadow {
+  public byte[] GetFieldAsBinary(int id) {
+    int length = 0;
+    IntPtr nPtr = GetFieldAsBinary(id, out length);
+    if (nPtr == IntPtr.Zero || length <= 0)
+      return Array.Empty<byte>();
+    byte[] buffer = new byte[length];
+    Marshal.Copy(nPtr, buffer, 0, length);
+    GC.KeepAlive(this);
+    return buffer;
+  }
+
+  public byte[] GetFieldAsBinary(string name) {
+    int length = 0;
+    IntPtr nPtr = GetFieldAsBinary(name, out length);
+    if (nPtr == IntPtr.Zero || length <= 0)
+      return Array.Empty<byte>();
+    byte[] buffer = new byte[length];
+    Marshal.Copy(nPtr, buffer, 0, length);
+    GC.KeepAlive(this);
+    return buffer;
   }
 }

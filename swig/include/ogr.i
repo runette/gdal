@@ -2253,7 +2253,6 @@ public:
   }
 #endif
 
-#ifndef SWIGCSHARP
 #ifdef SWIGJAVA
 %apply (GByte* outBytes) {GByte*};
   GByte* GetFieldAsBinary(int id, int *nLen, char **pBuf) {
@@ -2279,6 +2278,27 @@ public:
       }
   }
 %clear GByte*;
+#elif defined(SWIGCSHARP)
+  %apply (void *buffer_ptr) { GByte* };
+
+  GByte* GetFieldAsBinary(int id, int *nLen) {
+      return OGR_F_GetFieldAsBinary(self, id, nLen);
+  }
+  GByte* GetFieldAsBinary(const char* field_name, int *nLen) {
+    *nLen = 0;  
+    
+    int id = OGR_F_GetFieldIndex(self, field_name);
+      if (id == -1)
+      {
+        CPLError(CE_Failure, 1, FIELD_NAME_ERROR_TMPL, field_name);
+        return NULL;
+      }
+      else
+      {
+        return OGR_F_GetFieldAsBinary(self, id, nLen);
+      }
+  }
+  %clear GByte*;
 #else
   OGRErr GetFieldAsBinary( int id, int *nLen, char **pBuf) {
     GByte* pabyBlob = OGR_F_GetFieldAsBinary(self, id, nLen);
@@ -2304,7 +2324,6 @@ public:
   }
 #endif /* SWIGJAVA */
 
-#endif /* SWIGCSHARP */
 
   /* ---- IsFieldSet --------------------------- */
   bool IsFieldSet(int id) {
